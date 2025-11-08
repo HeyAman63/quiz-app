@@ -1,0 +1,271 @@
+{
+  "info": {
+    "_postman_id": "8a5bfe6e-1d34-4c71-9b98-d2c1bfae8a91",
+    "name": "Quiz Backend API (Express + MongoDB + JWT)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Quiz",
+      "item": [
+        {
+          "name": "Get All Quizzes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/quizzes",
+              "host": ["{{base_url}}"],
+              "path": ["api", "quizzes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Quiz by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/quizzes/{{quizId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "quizzes", "{{quizId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Quiz (Super Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"JavaScript Basics\",\n  \"description\": \"Quick JS test\",\n  \"questions\": [\n    {\n      \"question\": \"What is typeof []?\",\n      \"options\": [\"array\", \"object\", \"null\"],\n      \"correctAnswer\": \"object\"\n    },\n    {\n      \"question\": \"Which keyword declares a constant variable?\",\n      \"options\": [\"let\", \"const\", \"var\"],\n      \"correctAnswer\": \"const\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/quizzes",
+              "host": ["{{base_url}}"],
+              "path": ["api", "quizzes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Quiz (Super Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated JS Quiz\",\n  \"description\": \"Edited questions\",\n  \"questions\": [\n    {\n      \"question\": \"Which company created JavaScript?\",\n      \"options\": [\"Netscape\", \"Sun\", \"Google\"],\n      \"correctAnswer\": \"Netscape\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/quizzes/{{quizId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "quizzes", "{{quizId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Quiz (Super Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/quizzes/{{quizId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "quizzes", "{{quizId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Responses",
+      "item": [
+        {
+          "name": "Submit Quiz Answers",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quizId\": \"{{quizId}}\",\n  \"answers\": [\n    { \"questionId\": \"{{questionId1}}\", \"answer\": \"object\" },\n    { \"questionId\": \"{{questionId2}}\", \"answer\": \"const\" }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/responses/submit",
+              "host": ["{{base_url}}"],
+              "path": ["api", "responses", "submit"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Responses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/responses/me",
+              "host": ["{{base_url}}"],
+              "path": ["api", "responses", "me"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Responses (Super Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/responses",
+              "host": ["{{base_url}}"],
+              "path": ["api", "responses"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Utility",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "quizId",
+      "value": ""
+    },
+    {
+      "key": "questionId1",
+      "value": ""
+    },
+    {
+      "key": "questionId2",
+      "value": ""
+    }
+  ]
+}
